@@ -23,7 +23,3 @@ const rating = document.getElementById('rating');
     step1.classList.add('hidden');
     step2.classList.remove('hidden');
   });
-
-  const submit = () => {
-    console.log(form);
-  };
