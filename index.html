@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+
+    <title>Frontend Mentor | Interactive rating component</title>
+
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap');
+
+      :root {
+        --orange: hsl(25, 97%, 53%);
+        --white: hsl(0, 0%, 100%);
+        --lightgrey: hsl(217, 12%, 63%);
+        --mediumgrey: hsl(216, 12%, 54%);
+        --darkblue: hsl(213, 19%, 18%);
+        --verydarkblue: hsl(216, 12%, 8%);
+      }
+
+      .attribution {
+        font-size: 11px;
+        text-align: center;
+      }
+      .attribution a {
+        color: hsl(228, 45%, 44%);
+      }
+
+      body {
+        background: var(--verydarkblue);
+        color: var(--white);
+        font-family: 'Outfit', sans-serif;
+        font-size: 15px;
+      }
+
+      p {
+        color: var(--mediumgrey);
+      }
+
+      .container {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .card {
+        background: var(--darkblue);
+        max-width: 400px;
+        margin: auto;
+        border-radius: 25px;
+        padding: 2rem;
+        background: radial-gradient(
+          circle at top,
+          var(--darkblue),
+          var(--verydarkblue)
+        );
+      }
+
+      .card h1 {
+        font-weight: 400;
+      }
+
+      .card p {
+        line-height: 1.5;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      button {
+        all: unset;
+        background: var(--orange);
+        color: var(--white);
+        width: 100%;
+        text-align: center;
+        padding: 0.8rem 0;
+        border-radius: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: var(--white);
+        color: var(--orange);
+      }
+
+      .center {
+        text-align: center;
+      }
+
+      .ratingResultContainer {
+        padding: 30px 0px;
+      }
+
+      .ratingResult {
+        display: inline;
+        color: var(--orange);
+        background: var(--darkblue);
+        padding: 0.5rem 1.2rem;
+        border-radius: 2rem;
+      }
+
+      .numbersContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 25px 0px;
+      }
+
+      .number {
+        background: var(--darkblue);
+        padding: 1rem;
+        border-radius: 25px;
+        width: 20px;
+        aspect-ratio: 1;
+        display: flex;
+        justify-content: center;
+      }
+
+      .icon {
+        background: var(--darkblue);
+        padding: 1rem;
+        border-radius: 25px;
+        width: 20px;
+        aspect-ratio: 1;
+        display: flex;
+        justify-content: center;
+      }
+
+      .number:hover {
+        background: var(--mediumgrey);
+      }
+
+      .active {
+        background-color: var(--orange);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <div class="card" id="step-1">
+          <div class="icon">
+            <img src="/images/icon-star.svg" />
+          </div>
+          <h1>How did we do?</h1>
+          <p>
+            Please let us know how we did with your support request. All
+            feedback is appreciated to help us improve our offering!
+          </p>
+
+          <div class="numbersContainer">
+            <div class="number" id="rating-1" value="1">1</div>
+            <div class="number" id="rating-1" value="2">2</div>
+            <div class="number" id="rating-1" value="3">3</div>
+            <div class="number" id="rating-1" value="4">4</div>
+            <div class="number" id="rating-1" value="5">5</div>
+          </div>
+
+          <button id="submitButton">Submit</button>
+        </div>
+
+        <div class="card center hidden" id="step-2">
+          <img
+            src="images/illustration-thank-you.svg"
+            alt="Thank you illustration"
+          />
+          <div class="ratingResultContainer">
+            <p class="ratingResult">
+              You selected <span id="rating"></span> out of 5
+            </p>
+          </div>
+          <h1 class="">Thank you!</h1>
+          <p class="">
+            We appreciate you taking the time to give a rating. If you ever need
+            more support, don’t hesitate to get in touch!
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <div class="attribution">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+        >Frontend Mentor</a
+      >. Coded by <a href="https://www.benjaminlutz.at">Benjamin Lutz</a>.
+    </div>
+  </body>
+</html>
+
+<script>
+  const rating = document.getElementById('rating');
+  const numbers = document.querySelectorAll('.number');
+  const submitButton = document.getElementById('submitButton');
+  const step1 = document.getElementById('step-1');
+  const step2 = document.getElementById('step-2');
+
+  numbers.forEach((num) => {
+    num.addEventListener('click', (e) => {
+      numbers.forEach((num) => {
+        num.classList.remove('active');
+      });
+      num.classList.add('active');
+
+      rating.innerHTML = e.target.getAttribute('value');
+    });
+  });
+
+  submitButton.addEventListener('click', function (event) {
+    event.preventDefault();
+
+    if (rating.innerHTML === '') return;
+
+    step1.classList.add('hidden');
+    step2.classList.remove('hidden');
+  });
+
+  const submit = () => {
+    console.log(form);
+  };
+</script>
